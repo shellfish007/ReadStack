@@ -1,0 +1,20 @@
+{
+    "books": [
+        "data/books/Building_Event-Driven_Microservices.md",
+        "data/books/Cloud_Native_Go.md",
+        "data/books/Computer_Networking_Problems_and_Solutions.md",
+        "data/books/Database_Internals.md",
+        "data/books/Designing_Data_Intensive_Applications.md",
+        "data/books/Fundamentals_of_Software_Architecture.md",
+        "data/books/Learning_Modern_Linux.md",
+        "data/books/Linux_Containers_And_Virtualization.md",
+        "data/books/Software_Architecture_The_Hard_Parts.md",
+        "data/books/Fundamentals_of_Data_Engineering.md",
+        "data/books/The_Software_Developer's_Career_Handbook.md",
+        "data/books/Site_Reliability_Engineering.md"
+    ],
+    "notes": [
+        "data/notes/sample-note.md",
+        "data/notes/Distributed_Database.md"
+    ]
+}

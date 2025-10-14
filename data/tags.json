@@ -1,0 +1,19 @@
+{
+    "categories": {
+        "tech": [
+            "EDA",
+            "microservice",
+            "cloud",
+            "go",
+            "computer networking",
+            "database",
+            "scalability",
+            "system design",
+            "software architecture",
+            "linux",
+            "commandline",
+            "test",
+            "sample"
+        ]
+    }
+}
