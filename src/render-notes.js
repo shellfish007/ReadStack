@@ -19,14 +19,24 @@ export function renderNotesList(container, notes) {
     // Header: Title and Date
     const header = document.createElement('div');
     header.className = 'note-header';
+    header.style.marginBottom = '10px';
+    header.style.display = 'flex';
+    header.style.alignItems = 'center';
+    // Title
     const title = document.createElement('div');
     title.className = 'note-title';
     title.textContent = note.title || 'Untitled';
+    title.style.fontSize = '1.35rem';
+    title.style.fontWeight = '700';
+    title.style.color = '#2563eb';
+    title.style.marginRight = '16px';
     header.appendChild(title);
     if (note.date) {
       const date = document.createElement('div');
       date.className = 'note-date';
       date.textContent = new Date(note.date).toLocaleDateString('en-US');
+      date.style.color = '#3a4a5a';
+      date.style.fontSize = '0.98rem';
       header.appendChild(date);
     }
     card.appendChild(header);
@@ -52,11 +62,13 @@ export function renderNotesList(container, notes) {
     // Buttons (actions)
     const btns = document.createElement('div');
     btns.className = 'note-btns';
+    btns.style.marginBottom = '24px';
     // Read full
     const readBtn = document.createElement('button');
     readBtn.className = 'btn note-read-btn';
     readBtn.textContent = 'Read full';
     readBtn.onclick = () => {
+      card.style.display = 'none';
       window.location.hash = `#/notes/${note.slug || note.id || ''}`;
     };
     btns.appendChild(readBtn);
@@ -70,8 +82,17 @@ export function renderNotesList(container, notes) {
         const chip = document.createElement('span');
         chip.className = 'chip';
         chip.textContent = tag;
+        chip.style.background = '#e3f0ff'; // light blue background
+        chip.style.color = '#2563eb'; // vibrant blue text
+        chip.style.borderRadius = '8px';
+        chip.style.padding = '4px 12px';
+        chip.style.marginRight = '8px';
+        chip.style.fontWeight = '500';
+        chip.style.fontSize = '0.97rem';
+        chip.style.border = '1px solid #b6d3fa';
         tags.appendChild(chip);
       });
+      tags.style.marginTop = '8px';
       card.appendChild(tags);
     }
 

@@ -9,38 +9,61 @@ export function renderBookDetail(container, book) {
   container.innerHTML = '';
   const detail = document.createElement('div');
   detail.className = 'book-detail';
+  detail.style.background = 'rgba(255,255,255,0.98)';
+  detail.style.borderRadius = '18px';
+  detail.style.boxShadow = '0 8px 32px rgba(40,60,90,0.12)';
+  detail.style.padding = '32px 36px';
+  detail.style.maxWidth = '700px';
+  detail.style.margin = '40px auto';
   // Title
   const title = document.createElement('h2');
   title.textContent = book.title || 'Untitled';
+  title.style.fontSize = '2.1rem';
+  title.style.fontWeight = '700';
+  title.style.color = '#2a3a4a';
+  title.style.marginBottom = '12px';
   detail.appendChild(title);
   // Authors
   if (book.authors && book.authors.length) {
     const authors = document.createElement('div');
-    authors.innerHTML = `<strong>Authors:</strong> ${book.authors.join(', ')}`;
+    authors.innerHTML = `<strong style="color:#6c7a89;">Authors:</strong> <span style="color:#3a4a5a;">${book.authors.join(', ')}</span>`;
+    authors.style.marginBottom = '8px';
     detail.appendChild(authors);
   }
   // Dates
-  if (book.startDate) {
-    const start = document.createElement('div');
-    start.innerHTML = `<strong>Start:</strong> ${book.startDate}`;
-    detail.appendChild(start);
+  if (book.startDate || book.finishDate) {
+    const dates = document.createElement('div');
+    dates.style.marginBottom = '8px';
+    dates.style.color = '#6c7a89';
+    if (book.startDate) dates.innerHTML += `<span><strong>Start:</strong> ${book.startDate}</span> `;
+    if (book.finishDate) dates.innerHTML += `<span><strong>Finish:</strong> ${book.finishDate}</span>`;
+    detail.appendChild(dates);
   }
-  if (book.finishDate) {
-    const finish = document.createElement('div');
-    finish.innerHTML = `<strong>Finish:</strong> ${book.finishDate}`;
-    detail.appendChild(finish);
-  }
-  // Percent
+  // Progress
   if (typeof book.percent === 'number') {
     const percent = document.createElement('div');
-    percent.innerHTML = `<strong>Progress:</strong> ${book.percent}%`;
+    percent.innerHTML = `<strong style="color:#6c7a89;">Progress:</strong> <span style="color:#3a4a5a;">${book.percent}%</span>`;
+    percent.style.marginBottom = '8px';
     detail.appendChild(percent);
   }
   // Tags
   if (book.tags && book.tags.length) {
     const tags = document.createElement('div');
-    tags.innerHTML = `<strong>Tags:</strong> ${book.tags.join(', ')}`;
+    tags.innerHTML = `<strong style="color:#6c7a89;">Tags:</strong> <span style="color:#3a4a5a;">${book.tags.join(', ')}</span>`;
+    tags.style.marginBottom = '18px';
     detail.appendChild(tags);
+  }
+  // Long description (markdown body)
+  if (book.description) {
+    const desc = document.createElement('div');
+    desc.className = 'book-long-desc';
+    desc.style.fontSize = '1.08rem';
+    desc.style.lineHeight = '1.7';
+    desc.style.color = '#444';
+    desc.style.marginTop = '18px';
+    desc.style.whiteSpace = 'pre-line';
+    desc.innerText = book.description;
+    detail.appendChild(desc);
   }
   container.appendChild(detail);
 }
@@ -84,7 +107,44 @@ export function renderBooksList(container, books) {
     title.onclick = () => {
       window.location.hash = `#/books/${book.id || book.slug || ''}`;
     };
+    // Tooltip for long description
+    const descTooltip = document.createElement('div');
+    descTooltip.className = 'book-desc-tooltip';
+    descTooltip.innerHTML = book.description
+      ? `<div style="font-size:1rem;font-weight:600;margin-bottom:6px;color:#2a3a4a;">${book.title}</div><div style="font-size:0.95rem;line-height:1.6;color:#444;white-space:pre-line;">${book.description}</div>`
+      : '';
+    descTooltip.style.display = 'none';
+    descTooltip.style.position = 'fixed';
+    descTooltip.style.zIndex = '1000';
+    descTooltip.style.maxWidth = '620px';
+    descTooltip.style.background = 'rgba(255,255,255,0.98)';
+    descTooltip.style.borderRadius = '12px';
+    descTooltip.style.border = '1px solid #e0e4ea';
+    descTooltip.style.padding = '18px 20px';
+    descTooltip.style.boxShadow = '0 6px 24px rgba(40,60,90,0.18)';
+    descTooltip.style.transition = 'opacity 0.2s';
+    descTooltip.style.opacity = '0';
+    descTooltip.style.pointerEvents = 'none';
+    title.onmouseenter = (e) => {
+      if (book.description) {
+        descTooltip.style.display = 'block';
+        descTooltip.style.opacity = '1';
+        descTooltip.style.left = e.clientX + 16 + 'px';
+        descTooltip.style.top = e.clientY + 16 + 'px';
+      }
+    };
+    title.onmousemove = (e) => {
+      if (book.description) {
+        descTooltip.style.left = e.clientX + 16 + 'px';
+        descTooltip.style.top = e.clientY + 16 + 'px';
+      }
+    };
+    title.onmouseleave = () => {
+      descTooltip.style.opacity = '0';
+      setTimeout(() => { descTooltip.style.display = 'none'; }, 180);
+    };
     row.appendChild(title);
+    row.appendChild(descTooltip);
     // Progress bar
     if (typeof book.percent === 'number') {
       const progress = document.createElement('div');

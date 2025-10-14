@@ -1,8 +1,8 @@
 ---
 title: Fundamentals of Data Engineering
-authors: [Author One, Author Two]
+authors: [Joe Reis]
 startDate: 2025-01-01
-finishDate: 2025-02-01
+finishDate:
 tags: [data engineering, architecture]
 progress: { pagesRead: 10, totalPages: 200 }
 ---

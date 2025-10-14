@@ -1,6 +1,6 @@
 ---
 title: Learning Modern Linux
-authors: [Author One, Author Two]
+authors: [Michael Hausenblas]
 startDate: 2024-10-01
 finishDate: 2024-12-01
 tags: [linux]

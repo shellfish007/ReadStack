@@ -229,6 +229,7 @@ export async function loadAllMetadata(manifest) {
 				finishDate: meta.finishDate,
 				percent,
 				progress: meta.progress,
+				description: meta.body, // Add long description for tooltip
 				body: meta.body
 			};
 		})
