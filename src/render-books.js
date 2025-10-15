@@ -114,11 +114,6 @@ export function renderBooksList(container, books) {
     title.onclick = () => {
       window.location.hash = `#/books/${book.id || book.slug || ''}`;
     };
-    import('./markdown.js').then(mod => {
-      mod.renderMarkdown(book.description).then(html => {
-        descTooltip.innerHTML = html;
-      });
-    });
     // Tooltip for long description
     const descTooltip = document.createElement('div');
     descTooltip.className = 'book-desc-tooltip';
@@ -170,11 +165,8 @@ export function renderBooksList(container, books) {
     descTooltip.style.padding = '16px 18px';
     descTooltip.style.margin = '18px 0 18px 0';
     descTooltip.style.boxShadow = '0 2px 8px rgba(40,60,90,0.06)';
-    import('./markdown.js').then(mod => {
-      mod.renderMarkdown(book.description).then(html => {
-        descTooltip.innerHTML = html;
-      });
-    });
+    descTooltip.style.height = '300px'; /* Fixed height for book preview */
+    descTooltip.style.overflowY = 'auto'; /* Enable scrolling if content overflows */
     title.onmouseenter = (e) => {
       if (book.description) {
         descTooltip.style.display = 'block';

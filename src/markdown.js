@@ -63,13 +63,13 @@ export async function renderMarkdown(mdString) {
   }
 
   let html = parseNestedLists(mdString)
-    // Headings: #, ##, ###
-    .replace(/^### (.*)$/gm, '<h3>$1</h3>')
-    .replace(/^## (.*)$/gm, '<h2>$1</h2>')
-    .replace(/^# (.*)$/gm, '<h1>$1</h1>')
+    // Headings: #, ##, ### (fix: only match at start of line, not after other content)
+    .replace(/###\s+(.*)$/gm, '<h3 style="font-size:1rem;font-weight:800;color:#1e293b;margin:1.2em 0 0.7em 0;">$1</h3>')
+    .replace(/##\s+(.*)$/gm, '<h2 style="font-size:1.5rem;font-weight:900;color:#1e293b;margin:1.5em 0 0.8em 0;">$1</h2>')
+    .replace(/#\s+(.*)$/gm, '<h1 style="font-size:2rem;font-weight:900;color:#1e293b;margin:2em 0 1em 0;">$1</h1>')
     // Improved: ***blue bold***, **black bold**, *black bold* (greedy, multiline, punctuation)
     .replace(/\*\*\*([^*][\s\S]*?[^*])\*\*\*/g, '<strong style="color:#2563eb;font-weight:700;">$1</strong>')
-    .replace(/\*\*([^*][\s\S]*?[^*])\*\*/g, '<strong style="color:#222;font-weight:700;">$1</strong>')
+    .replace(/\*\*([^*][\s\S]*?[^*])\*\*/g, '<strong style="color:#2563eb;font-weight:700;">$1</strong>')
     .replace(/\*(?!\*)([^*][\s\S]*?[^*])\*/g, '<strong style="color:#222;font-weight:700;">$1</strong>')
     // Paragraphs: lines not in block tags
     .replace(/^(?!<h\d>|<ul>|<li>|<\/ul>|<\/li>)([^\n]+)\n/gm, '<p>$1</p>\n');

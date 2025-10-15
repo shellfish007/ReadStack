@@ -56,15 +56,12 @@ export function renderNotesList(container, notes) {
       card.appendChild(summary);
     }
 
-    // Snippet (first 400 chars of body)
     if (note.body) {
       const snippet = document.createElement('div');
       snippet.className = 'note-snippet';
-      let text = note.body.replace(/\n+/g, ' ').slice(0, 400);
-      if (note.body.length > 400) text += '…';
       // Use renderMarkdown for preview snippet
       import('./markdown.js').then(mod => {
-        mod.renderMarkdown(text).then(html => {
+        mod.renderMarkdown(note.body).then(html => {
           snippet.innerHTML = html;
         });
       });
@@ -76,6 +73,8 @@ export function renderNotesList(container, notes) {
       snippet.style.padding = '16px 18px';
       snippet.style.margin = '10px 0 18px 0';
       snippet.style.boxShadow = '0 2px 8px rgba(40,60,90,0.06)';
+      snippet.style.height = '300px'; /* Fixed height for note preview */
+      snippet.style.overflowY = 'auto'; /* Enable scrolling if content overflows */
       card.appendChild(snippet);
     }
 
