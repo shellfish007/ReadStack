@@ -6,4 +6,4 @@ finishDate: 2025-01-01
 tags: [linux]
 progress: { pagesRead: 552, totalPages: 552 }
 ---
-This is the body of the Site Reliability Engineering. It supports **Markdown** formatting.
+More like a user manual for SRE.

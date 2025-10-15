@@ -59,10 +59,17 @@ export function renderBookDetail(container, book) {
     desc.className = 'book-long-desc';
     desc.style.fontSize = '1.08rem';
     desc.style.lineHeight = '1.7';
-    desc.style.color = '#444';
-    desc.style.marginTop = '18px';
-    desc.style.whiteSpace = 'pre-line';
-    desc.innerText = book.description;
+    desc.style.color = '#222';
+    desc.style.background = '#f6f8fa';
+    desc.style.borderRadius = '10px';
+    desc.style.padding = '16px 18px';
+    desc.style.margin = '18px 0 18px 0';
+    desc.style.boxShadow = '0 2px 8px rgba(40,60,90,0.06)';
+    import('./markdown.js').then(mod => {
+      mod.renderMarkdown(book.description).then(html => {
+        desc.innerHTML = html;
+      });
+    });
     detail.appendChild(desc);
   }
   container.appendChild(detail);
@@ -107,11 +114,41 @@ export function renderBooksList(container, books) {
     title.onclick = () => {
       window.location.hash = `#/books/${book.id || book.slug || ''}`;
     };
+    import('./markdown.js').then(mod => {
+      mod.renderMarkdown(book.description).then(html => {
+        descTooltip.innerHTML = html;
+      });
+    });
     // Tooltip for long description
     const descTooltip = document.createElement('div');
     descTooltip.className = 'book-desc-tooltip';
+    descTooltip.style.display = 'none';
+    descTooltip.style.position = 'fixed';
+    descTooltip.style.zIndex = '1000';
+    descTooltip.style.maxWidth = '620px';
+    descTooltip.style.background = 'rgba(255,255,255,0.98)';
+    descTooltip.style.borderRadius = '12px';
+    descTooltip.style.border = '1px solid #e0e4ea';
+    descTooltip.style.padding = '18px 20px';
+    descTooltip.style.boxShadow = '0 6px 24px rgba(40,60,90,0.18)';
+    descTooltip.style.transition = 'opacity 0.2s';
+    descTooltip.style.opacity = '0';
+    descTooltip.style.pointerEvents = 'none';
+    descTooltip.style.fontSize = '1.08rem';
+    descTooltip.style.lineHeight = '1.7';
+    descTooltip.style.color = '#222';
+    descTooltip.style.background = '#f6f8fa';
+    descTooltip.style.borderRadius = '10px';
+    descTooltip.style.padding = '16px 18px';
+    descTooltip.style.margin = '18px 0 18px 0';
+    descTooltip.style.boxShadow = '0 2px 8px rgba(40,60,90,0.06)';
+    import('./markdown.js').then(mod => {
+      mod.renderMarkdown(book.description).then(html => {
+        descTooltip.innerHTML = html;
+      });
+    });
     descTooltip.innerHTML = book.description
-      ? `<div style="font-size:1rem;font-weight:600;margin-bottom:6px;color:#2a3a4a;">${book.title}</div><div style="font-size:0.95rem;line-height:1.6;color:#444;white-space:pre-line;">${book.description}</div>`
+      ? `<div style="font-size:1rem;font-weight:600;margin-bottom:6px;color:#2a3a4a;">${book.title}</div><div style="font-size:0.95rem;line-height:1.6;color:#444;white-space:pre-line;">${descTooltip.innerHTML}</div>`
       : '';
     descTooltip.style.display = 'none';
     descTooltip.style.position = 'fixed';
@@ -125,6 +162,19 @@ export function renderBooksList(container, books) {
     descTooltip.style.transition = 'opacity 0.2s';
     descTooltip.style.opacity = '0';
     descTooltip.style.pointerEvents = 'none';
+    descTooltip.style.fontSize = '1.08rem';
+    descTooltip.style.lineHeight = '1.7';
+    descTooltip.style.color = '#222';
+    descTooltip.style.background = '#f6f8fa';
+    descTooltip.style.borderRadius = '10px';
+    descTooltip.style.padding = '16px 18px';
+    descTooltip.style.margin = '18px 0 18px 0';
+    descTooltip.style.boxShadow = '0 2px 8px rgba(40,60,90,0.06)';
+    import('./markdown.js').then(mod => {
+      mod.renderMarkdown(book.description).then(html => {
+        descTooltip.innerHTML = html;
+      });
+    });
     title.onmouseenter = (e) => {
       if (book.description) {
         descTooltip.style.display = 'block';
