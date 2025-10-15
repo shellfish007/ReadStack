@@ -1,3 +1,4 @@
+import { renderMarkdown } from './markdown.js';
 import { openModal } from './ui.js';
 // Notes list renderer
 // Minimal, production-ready, no dependencies
@@ -55,13 +56,18 @@ export function renderNotesList(container, notes) {
       card.appendChild(summary);
     }
 
-    // Snippet (first 200 chars of body)
+    // Snippet (first 400 chars of body)
     if (note.body) {
       const snippet = document.createElement('div');
       snippet.className = 'note-snippet';
       let text = note.body.replace(/\n+/g, ' ').slice(0, 400);
       if (note.body.length > 400) text += '…';
-      snippet.textContent = text;
+      // Use renderMarkdown for preview snippet
+      import('./markdown.js').then(mod => {
+        mod.renderMarkdown(text).then(html => {
+          snippet.innerHTML = html;
+        });
+      });
       snippet.style.fontSize = '1.08rem';
       snippet.style.lineHeight = '1.7';
       snippet.style.color = '#222';
