@@ -1,6 +1,6 @@
 ---
 title: Distributed Database
-date: 2025-10-14
+date: 2025-10-13
 summary: Talks about confusing concepts in distributed database, such as concurrency, consistency, consensus and isolation.
 tags: [database, consistency, replication]
 ---

@@ -14,7 +14,7 @@
         "data/books/Site_Reliability_Engineering.md"
     ],
     "notes": [
-        "data/notes/sample-note.md",
+        "data/notes/CQRS.md",
         "data/notes/Distributed_Database.md"
     ]
 }

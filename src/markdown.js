@@ -17,10 +17,10 @@ export async function renderMarkdown(mdString) {
     // Lists: - item
     .replace(/^(\s*)- (.*)$/gm, '$1<li>$2</li>')
     .replace(/(<li>.*<\/li>\n?)+/g, m => `<ul>${m.replace(/\n/g, '')}</ul>\n`)
-    // Custom: ***blue bold***, **black bold**, *black bold*
-    .replace(/\*\*\*([^*]+)\*\*\*/g, '<strong style="color:#2563eb;font-weight:700;">$1</strong>')
-    .replace(/\*\*([^*]+)\*\*/g, '<strong style="color:#222;font-weight:700;">$1</strong>')
-    .replace(/\*(?!\*)([^*]+)\*/g, '<strong style="color:#222;font-weight:700;">$1</strong>')
+    // Improved: ***blue bold***, **black bold**, *black bold* (greedy, multiline, punctuation)
+    .replace(/\*\*\*([^*][\s\S]*?[^*])\*\*\*/g, '<strong style="color:#2563eb;font-weight:700;">$1</strong>')
+    .replace(/\*\*([^*][\s\S]*?[^*])\*\*/g, '<strong style="color:#222;font-weight:700;">$1</strong>')
+    .replace(/\*(?!\*)([^*][\s\S]*?[^*])\*/g, '<strong style="color:#222;font-weight:700;">$1</strong>')
     // Paragraphs: lines not in block tags
     .replace(/^(?!<h\d>|<ul>|<li>|<\/ul>|<\/li>)([^\n]+)\n/gm, '<p>$1</p>\n');
 

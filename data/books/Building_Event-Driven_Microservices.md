@@ -12,6 +12,6 @@ The book help those who already know about the pros and cons of asynchronous eve
 - Identifying and publishing cross-domain data sets to event streams (sending messages to kafka brokers)
 - Data processing techniques: event repartitioning and transformations such as filter
 - Stream processing: timestamps, event scheduling, watermarks 
-- Frameworks: Apache Spark, Flink, Storm, Heron, Beam, Apache kafka
+- Frameworks: Heavy weight(Apache Spark, Flink, Storm, Heron, Beam), light weight(Apache kafka)
 - Tooling, testing and deployment
 

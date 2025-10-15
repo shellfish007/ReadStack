@@ -12,9 +12,15 @@ export function renderNotesList(container, notes) {
   container.innerHTML = '';
   const list = document.createElement('div');
   list.className = 'notes-list';
+  list.style.display = 'flex';
+  list.style.flexDirection = 'column';
+  list.style.gap = '24px';
   notes.forEach(note => {
     const card = document.createElement('div');
     card.className = 'note-card card'; // Use .card for modern look
+    card.style.width = '100%';
+    card.style.maxWidth = '900px';
+    card.style.margin = '0 auto';
 
     // Header: Title and Date
     const header = document.createElement('div');
@@ -34,7 +40,7 @@ export function renderNotesList(container, notes) {
     if (note.date) {
       const date = document.createElement('div');
       date.className = 'note-date';
-      date.textContent = new Date(note.date).toLocaleDateString('en-US');
+      date.textContent = note.date; // Show raw date string from front matter
       date.style.color = '#3a4a5a';
       date.style.fontSize = '0.98rem';
       header.appendChild(date);
@@ -53,9 +59,17 @@ export function renderNotesList(container, notes) {
     if (note.body) {
       const snippet = document.createElement('div');
       snippet.className = 'note-snippet';
-      let text = note.body.replace(/\n+/g, ' ').slice(0, 200);
-      if (note.body.length > 200) text += '…';
+      let text = note.body.replace(/\n+/g, ' ').slice(0, 400);
+      if (note.body.length > 400) text += '…';
       snippet.textContent = text;
+      snippet.style.fontSize = '1.08rem';
+      snippet.style.lineHeight = '1.7';
+      snippet.style.color = '#222';
+      snippet.style.background = '#f6f8fa';
+      snippet.style.borderRadius = '10px';
+      snippet.style.padding = '16px 18px';
+      snippet.style.margin = '10px 0 18px 0';
+      snippet.style.boxShadow = '0 2px 8px rgba(40,60,90,0.06)';
       card.appendChild(snippet);
     }
 
@@ -68,6 +82,8 @@ export function renderNotesList(container, notes) {
     readBtn.className = 'btn note-read-btn';
     readBtn.textContent = 'Read full';
     readBtn.onclick = () => {
+      // Remove any open modal (hover quick view) BEFORE hiding card or changing hash
+      document.querySelectorAll('.modal-card, .modal-content').forEach(m => m.remove());
       card.style.display = 'none';
       window.location.hash = `#/notes/${note.slug || note.id || ''}`;
     };
@@ -97,32 +113,7 @@ export function renderNotesList(container, notes) {
     }
 
     // Quick view on hover (modal)
-    let quickViewTimeout;
-    card.addEventListener('mouseenter', () => {
-      quickViewTimeout = setTimeout(() => {
-        import('./markdown.js').then(mod => {
-          const content = document.createElement('div');
-          content.className = 'modal-content';
-          const title = document.createElement('h3');
-          title.textContent = note.title || 'Untitled';
-          content.appendChild(title);
-          const body = document.createElement('div');
-          body.className = 'note-body';
-          const snippet = note.body ? note.body.slice(0, 1000) : '';
-          mod.renderMarkdown(snippet).then(html => {
-            body.innerHTML = html;
-            content.appendChild(body);
-            openModal(content);
-          });
-        });
-      }, 250); // slight delay to avoid accidental popups
-    });
-    card.addEventListener('mouseleave', () => {
-  clearTimeout(quickViewTimeout);
-  // Close modal if open
-  const modals = document.querySelectorAll('.modal-card');
-  modals.forEach(m => m.remove());
-    });
+    // Removed overlay on hover for cleaner UI
     list.appendChild(card);
   });
   container.appendChild(list);
