@@ -1,0 +1,17 @@
+---
+title: Considerations When Scaling Your Database
+date: 2025-10-27
+summary: Sharding and replication are common techniques for scaling databases, but they come with trade-offs in consistency and complexity.
+tags: [database, distributed transactions, replication, sharding, scaling]
+---
+In today’s era of data explosion, scaling databases to handle massive volumes of data has become a critical challenge. A common approach is *sharding*, also known as *horizontal scaling* or *partitioning*. In this model, data is partitioned across multiple nodes, allowing reads and writes on the same logical table to be distributed and processed concurrently—significantly increasing throughput.
+At first glance, horizontal scaling appears to be a universal solution. Many books and tutorials promote it as the natural evolution beyond vertical scaling, which increases the capacity of a single node but often becomes prohibitively expensive. However, that reasoning assumes that the system in question is stateless—or that its state can be safely externalized to a storage system. Stateless services scale horizontally with ease, but databases are inherently stateful, and maintaining *data correctness and transactional integrity* across partitions introduces significant complexity. In short, we can’t “offload” the state of a database elsewhere—we must deal with the challenges of distributed data management head-on.
+In practice, many modern databases provide *native sharding support*, including MongoDB, Cassandra, TiDB, CockroachDB, and Google Spanner, as well as managed *distributed cloud databases* like Amazon DynamoDB and Azure Cosmos DB. However, sharding often comes with trade-offs: many systems relax **ACID** guarantees for the sake of performance and scalability. Specifically, when a transaction spans multiple shards (or partitions), full transactional isolation and atomicity may no longer be guaranteed. Only a subset of databases—such as CockroachDB, TiDB, and Google Spanner—provide true distributed transaction support, typically using two-phase commit (2PC) or global consensus protocols like Paxos or Raft.
+Stepping back, replication is another essential scaling technique to consider. Unlike sharding, replication does not distribute the write workload but instead replicates the same data across multiple nodes. This improves read scalability and fault tolerance but introduces its own set of trade-offs—chiefly, the risk of *replica inconsistency* due to replication lag.
+In practice, replication strategies typically fall into three broad categories:
+- *Single-leader replication*: Common in traditional RDBMSs (e.g., MySQL, PostgreSQL). A single leader handles all writes, and changes are replicated to followers. Systems often use semi-synchronous replication, where a write is considered committed once the write-ahead log (WAL) has been acknowledged by a majority of replicas.
+- *Multi-leader replication (regional leaders)*: Some systems elect one leader per region to reduce latency. Cross-region replication usually occurs asynchronously, which may lead to temporary divergence between regions.
+- *Leaderless replication*: Used by systems like Cassandra and DynamoDB. Here, any replica can accept writes, and quorum-based consistency determines how many nodes must confirm a read or write before it’s considered successful. Strong consistency is achieved when the sum of the read quorum and write quorum exceeds the total number of replicas.
+
+**to be continued…**
+

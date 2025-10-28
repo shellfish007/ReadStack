@@ -14,6 +14,7 @@
     ],
     "notes": [
         "data/notes/CQRS.md",
-        "data/notes/Distributed_Database.md"
+        "data/notes/Distributed_Database.md",
+        "data/notes/Considerations_When_Scaling_Your_Database.md"
     ]
 }

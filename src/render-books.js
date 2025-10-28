@@ -165,7 +165,7 @@ export function renderBooksList(container, books) {
     descTooltip.style.padding = '16px 18px';
     descTooltip.style.margin = '18px 0 18px 0';
     descTooltip.style.boxShadow = '0 2px 8px rgba(40,60,90,0.06)';
-    descTooltip.style.height = '300px'; /* Fixed height for book preview */
+    descTooltip.style.height = '400px'; /* Fixed height for hover pop-up */
     descTooltip.style.overflowY = 'auto'; /* Enable scrolling if content overflows */
     title.onmouseenter = (e) => {
       if (book.description) {
@@ -187,16 +187,6 @@ export function renderBooksList(container, books) {
     };
     row.appendChild(title);
     row.appendChild(descTooltip);
-    // Progress bar
-    if (typeof book.percent === 'number') {
-      const progress = document.createElement('div');
-      progress.className = 'progress-bar';
-      const fill = document.createElement('div');
-      fill.className = 'progress-fill';
-      fill.style.width = Math.max(0, Math.min(100, book.percent)) + '%';
-      progress.appendChild(fill);
-      row.appendChild(progress);
-    }
     // Metadata hover block (only on kebab hover)
     const meta = document.createElement('div');
     meta.className = 'book-meta';

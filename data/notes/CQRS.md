@@ -7,6 +7,7 @@ tags: [CQRS, database, event streaming]
 An example of the **CQRS (Command Query Responsibility Segregation)** pattern is a system that maintains two distinct data stores:
 - a primary (write) database, which serves as the *system of record*, and
 - a read database, which functions as a *derived data store*.
+
 The read database maintains **materialized views** of complex queries derived from the primary database. It is optimized for *high-throughput, low-latency* read operations, while the primary database focuses on maintaining transactional integrity and supporting consistent writes.
 All write operations (commands) are directed to the primary database, whereas read operations (queries) are served from the read database. To keep the two data stores synchronized, **event streaming** mechanisms—commonly implemented with tools such as *Apache Kafka*—are used to propagate changes from the primary database to the read database. This ensures the read side remains *eventually consistent* with the authoritative source of truth on the write side.
 
@@ -17,6 +18,7 @@ Despite these safeguards, data drift between the primary and derived systems may
 - **Full rebuild (“big bang replay”)** — Reapply all events from the beginning to rebuild the derived state from scratch.
 - **Partial replay** — Start from a known good snapshot of the derived state and reapply only subsequent events.
 - **Direct reconciliation** — Compare and repair derived data using authoritative information from the primary database.
+
 Each approach involves trade-offs in recovery time, system availability, and operational cost. The optimal strategy depends on factors such as system size, event ordering guarantees, and tolerance for temporary inconsistency.
 
 ## Why Not Store the Views Directly in the Primary Database?
@@ -30,6 +32,7 @@ For instance, if the primary database uses a normalized schema to efficiently ha
 This way:
 - The primary database remains optimized for *transactional integrity and simple lookups*.
 - The read database can serve *complex, high-volume* analytical or aggregation queries with minimal overhead.
+
 In such a setup, the read database only needs to write each event once, rather than updating multiple tables in a transaction as the primary database might. This separation allows both systems to operate efficiently within their respective workloads.
 
 

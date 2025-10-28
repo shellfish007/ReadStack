@@ -14,7 +14,9 @@
             "commandline",
             "database",
             "consistency",
-            "replication"
+            "replication",
+            "sharding",
+            "scaling"
         ]
     }
 }
