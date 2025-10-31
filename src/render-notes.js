@@ -1,5 +1,6 @@
 import { renderMarkdown } from './markdown.js';
 import { openModal } from './ui.js';
+import { renderDatabaseNoteFromCSV } from './render-database-note.js';
 // Notes list renderer
 // Minimal, production-ready, no dependencies
 
@@ -122,4 +123,7 @@ export function renderNotesList(container, notes) {
     list.appendChild(card);
   });
   container.appendChild(list);
+
+  // Render Databases.csv data as a separate note
+  renderDatabaseNoteFromCSV(container);
 }

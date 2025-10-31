@@ -5,7 +5,6 @@ summary: Talks about confusing concepts in distributed database, such as concurr
 tags: [database, consistency, replication]
 ---
 Replica **consistency** issues across nodes are most often caused by *replication lag*, though other factors—such as non-deterministic operations, replication errors, or network partitions—can also contribute. Replication is fundamental to achieving scalability, availability, and low-latency reads, and is typically implemented using one of three main architectures: *single-leader, multi-leader, or leaderless replication*.
-In practice, single-leader architectures typically employ *(semi-)synchronous* replication to ensure strong consistency guarantees, multi-leader architectures rely on *asynchronous replication* to eliminate cross-leader coordination latency, and leaderless architectures adopt partially asynchronous replication schemes, commonly using *quorum-based writes* with eventual convergence semantics.
 Most production systems rely on asynchronous replication, where updates on the primary node are propagated to replicas through a replication log. The underlying mechanisms vary by database:
 - *Statement-based replication* — SQL statements are replayed on replicas (used in older MySQL versions).
 - *Write-Ahead Log (WAL) shipping* — low-level log records are shipped and applied (used in PostgreSQL).
