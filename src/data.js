@@ -245,7 +245,8 @@ export async function loadAllMetadata(manifest) {
 				date: meta.date,
 				summary: meta.summary,
 				tags: meta.tags || [],
-				body: meta.body
+				body: meta.body,
+				file: meta.file
 			};
 		})
 	);

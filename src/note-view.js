@@ -45,5 +45,12 @@ export async function renderNoteDetail(container, note, renderMarkdownAsync) {
     body.innerHTML = await renderMarkdownAsync(note.body);
     detail.appendChild(body);
   }
+  if (note.file && note.file.endsWith('.csv')) {
+    import('./render-csv-note.js').then(mod => {
+      mod.renderDatabaseNoteFromCSV(detail, note.file, true).then(content => {
+        detail.appendChild(content);
+      });
+    });
+  }
   container.appendChild(detail);
 }

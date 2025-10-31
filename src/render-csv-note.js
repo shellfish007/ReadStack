@@ -11,39 +11,15 @@ export function parseCSV(csvContent) {
   });
 }
 
-// Render Databases.csv data as a separate note
-export async function renderDatabaseNoteFromCSV(container) {
-  const databaseNote = document.createElement('div');
-  databaseNote.className = 'note-card card';
-  databaseNote.style.width = '100%';
-  databaseNote.style.maxWidth = '900px';
-  databaseNote.style.margin = '0 auto';
-  databaseNote.style.padding = '16px';
-  databaseNote.style.background = '#f6f8fa';
-  databaseNote.style.borderRadius = '10px';
-  databaseNote.style.boxShadow = '0 2px 8px rgba(40,60,90,0.06)';
-
-  const header = document.createElement('div');
-  header.className = 'note-header';
-  header.style.marginBottom = '10px';
-  header.style.display = 'flex';
-  header.style.alignItems = 'center';
-
-  const title = document.createElement('div');
-  title.textContent = 'Databases Overview (from CSV)';
-  title.style.fontSize = '1.35rem';
-  title.style.fontWeight = '700';
-  title.style.color = '#2563eb';
-  header.appendChild(title);
-  databaseNote.appendChild(header);
-
+// Render Databases.csv data as a body of a note
+export async function renderDatabaseNoteFromCSV(container, file, singlePage = false) {
   const content = document.createElement('div');
   content.style.fontSize = '1rem';
   content.style.lineHeight = '1.6';
   content.style.color = '#222';
 
   try {
-    const response = await fetch('data/notes/Databases.csv');
+    const response = await fetch(file);
     const csvContent = await response.text();
     const databases = parseCSV(csvContent);
 
@@ -86,7 +62,18 @@ export async function renderDatabaseNoteFromCSV(container) {
     });
     table.appendChild(tbody);
 
-    content.appendChild(table);
+    const scrollableContainer = document.createElement('div');
+    scrollableContainer.style.maxHeight = '400px'; // Set a fixed height for the scrollable area
+    if (singlePage) {
+      scrollableContainer.style.maxHeight = 'none'; // No height limit for single page view
+      scrollableContainer.style.width = '120%';
+    }
+    scrollableContainer.style.overflowY = 'auto'; // Enable vertical scrolling
+    scrollableContainer.style.border = '1px solid #ddd'; // Optional: Add a border for better visibility
+    scrollableContainer.style.marginTop = '16px';
+
+    scrollableContainer.appendChild(table);
+    content.appendChild(scrollableContainer);
   } catch (error) {
     const errorMessage = document.createElement('p');
     errorMessage.textContent = 'Failed to load database data from CSV.';
@@ -94,6 +81,5 @@ export async function renderDatabaseNoteFromCSV(container) {
     content.appendChild(errorMessage);
   }
 
-  databaseNote.appendChild(content);
-  container.appendChild(databaseNote);
+  return content;
 }

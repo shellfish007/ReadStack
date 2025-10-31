@@ -1,6 +1,6 @@
 import { renderMarkdown } from './markdown.js';
 import { openModal } from './ui.js';
-import { renderDatabaseNoteFromCSV } from './render-database-note.js';
+import { renderDatabaseNoteFromCSV } from './render-csv-note.js';
 // Notes list renderer
 // Minimal, production-ready, no dependencies
 
@@ -9,7 +9,7 @@ import { renderDatabaseNoteFromCSV } from './render-database-note.js';
  * @param {HTMLElement} container
  * @param {Array} notes
  */
-export function renderNotesList(container, notes) {
+export async function renderNotesList(container, notes) {
   if (!Array.isArray(notes)) return;
   container.innerHTML = '';
   const list = document.createElement('div');
@@ -61,11 +61,14 @@ export function renderNotesList(container, notes) {
       const snippet = document.createElement('div');
       snippet.className = 'note-snippet';
       // Use renderMarkdown for preview snippet
-      import('./markdown.js').then(mod => {
-        mod.renderMarkdown(note.body).then(html => {
-          snippet.innerHTML = html;
+      if (note.body != undefined) {
+        import('./markdown.js').then(mod => {
+          mod.renderMarkdown(note.body).then(html => {
+            snippet.innerHTML = html;
+          });
         });
-      });
+      }
+    
       snippet.style.fontSize = '1.08rem';
       snippet.style.lineHeight = '1.7';
       snippet.style.color = '#222';
@@ -79,7 +82,24 @@ export function renderNotesList(container, notes) {
       card.appendChild(snippet);
     }
 
-    // Buttons (actions)
+    if (note.file && note.file.endsWith('.csv')) {
+      import('./render-csv-note.js').then(mod => {
+        mod.renderDatabaseNoteFromCSV(card, note.file).then(content => {
+          card.appendChild(content);
+          createTagsAndButtons(list, card, note);
+        });
+      });
+    } else {
+      createTagsAndButtons(list, card, note);
+    }    
+  });
+  container.appendChild(list);
+
+  // Render Databases.csv data as a separate note
+}
+
+function createTagsAndButtons(list, card, note) {
+  // Buttons (actions)
     const btns = document.createElement('div');
     btns.className = 'note-btns';
     btns.style.marginBottom = '24px';
@@ -121,9 +141,4 @@ export function renderNotesList(container, notes) {
     // Quick view on hover (modal)
     // Removed overlay on hover for cleaner UI
     list.appendChild(card);
-  });
-  container.appendChild(list);
-
-  // Render Databases.csv data as a separate note
-  renderDatabaseNoteFromCSV(container);
 }
