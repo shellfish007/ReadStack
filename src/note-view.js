@@ -13,7 +13,7 @@ export async function renderNoteDetail(container, note, renderMarkdownAsync) {
   container.innerHTML = '';
   const detail = document.createElement('div');
   detail.className = 'note-detail';
-  detail.style.maxWidth = '900px';
+  detail.style.maxWidth = note.file && note.file.endsWith('.csv') ? 'none' : '900px';
   detail.style.margin = '40px auto';
   detail.style.background = '#fff';
   detail.style.borderRadius = '16px';
@@ -46,6 +46,7 @@ export async function renderNoteDetail(container, note, renderMarkdownAsync) {
     detail.appendChild(body);
   }
   if (note.file && note.file.endsWith('.csv')) {
+    detail.classList.add('csv');
     import('./render-csv-note.js').then(mod => {
       mod.renderDatabaseNoteFromCSV(detail, note.file, true).then(content => {
         detail.appendChild(content);

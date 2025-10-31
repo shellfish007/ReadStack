@@ -119,6 +119,16 @@
 	position: relative;
 	overflow: hidden;
 }
+.note-detail.csv {
+    max-width: 1200px;
+    padding-right: 2rem; /* Ensure right padding is maintained */
+    box-sizing: border-box; /* Prevent content from overflowing */
+    margin-right: auto; /* Avoid consuming space from other columns */
+    display: inline-block; /* Ensure it behaves as a block within its container */
+    float: none; /* Prevent floating behavior */
+    overflow-x: auto; /* Enable horizontal scrolling if content exceeds */
+    table-layout: fixed; /* Reduce column width */
+}
 .note-detail h2 {
 	font-size: 2.1em;
 	font-weight: 800;
