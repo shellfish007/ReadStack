@@ -1,12 +1,12 @@
 ---
 title: Fundamentals of Data Engineering
 authors: [Joe Reis]
-startDate: 2025-01-01
-finishDate:
+startDate: 2025-10-01
+finishDate: 2025-10-15
 tags: [data engineering, architecture]
-progress: { pagesRead: 10, totalPages: 200 }
+progress: { pagesRead: 450, totalPages: 450 }
 ---
-It would be good to read if you need to deal with really complicated data ingestion problems. This would be an extension to event-driven architecture where the situation gets complicated. It covers below topics:
+This books covers data lifecyle with below areas:
 - Data Generation (logs, database changes, CRUD operations, APIs…)
 - Data Storage
     - File storage like SSD, Block storage like EBS, Object storage like S3
