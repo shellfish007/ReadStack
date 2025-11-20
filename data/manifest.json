@@ -10,7 +10,8 @@
         "data/books/Linux_Containers_And_Virtualization.md",
         "data/books/Software_Architecture_The_Hard_Parts.md",
         "data/books/Fundamentals_of_Data_Engineering.md",
-        "data/books/Site_Reliability_Engineering.md"
+        "data/books/Site_Reliability_Engineering.md",
+        "data/books/Kubernetes:Up_and_Running.md"
     ],
     "notes": [
         "data/notes/CQRS.md",

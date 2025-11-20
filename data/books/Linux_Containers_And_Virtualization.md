@@ -3,7 +3,7 @@ title: Linux Containers And Virtualization
 authors: [Shashank Mohan Jain]
 startDate: 2025-05-01
 finishDate: 2025-06-01
-tags: [linux, commandline]
+tags: [linux, virtualization]
 progress: { pagesRead: 156, totalPages: 156 }
 ---
 This books covers below areas:

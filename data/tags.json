@@ -11,12 +11,13 @@
             "system design",
             "software architecture",
             "linux",
-            "commandline",
             "database",
             "consistency",
             "replication",
             "sharding",
-            "scaling"
+            "scaling",
+            "virtualization",
+            "kubernetes"
         ]
     }
 }
